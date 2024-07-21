@@ -1,0 +1,179 @@
+/*borders*/
+$border-one: 0.5px solid #d4d4d4;
+$border-two: 1px solid #d4d4d4;
+
+/*margins & paddings*/
+$p-0: 0px;
+$p-1: 1px;
+$p-2: 2px;
+$p-3: 3px;
+$p-4: 4px;
+$p-5: 5px;
+$p-6: 6px;
+$p-7: 7px;
+$p-8: 8px;
+$p-9: 9px;
+$p-10: 10px;
+$p-13: 13px;
+$p-15: 15px;
+$p-20: 20px;
+
+
+$m-0: 0px;
+$m-1: 1px;
+$m-2: 2px;
+$m-3: 3px;
+$m-4: 4px;
+$m-5: 5px;
+$m-6: 6px;
+$m-7: 7px;
+$m-8: 8px;
+$m-9: 9px;
+$m-10: 10px;
+$m-12: 12px;
+$m-15: 15px;
+$m-16: 16px;
+$m-20: 20px;
+$m-25: 25px;
+/*margins & paddings*/
+
+/*Display scss*/
+$d-block: block;
+$d-inline: inline;
+$d-inline-block: inline-block;
+$d-flex: flex;
+$d-inline-table: inline-table;
+$d-table: table;
+$d-table-cell: table-cell;
+$d-contents: contents;
+$d-none: none;
+$d-unset: unset;
+$d-grid: grid;
+$d-inline-flex: inline-flex;
+/*Display scss*/
+
+/*Position scss*/
+$position-relative: relative;
+$position-absolute: absolute;
+$position-fixed: fixed;
+$position-static: static;
+$position-sticky: sticky;
+$position-unset: unset;
+$position-inherit: inherit;
+/*Position scss*/
+
+/*Box-shadows*/
+$box-shadow-one: 1px 1px 4px 0px rgba(70, 69, 69, 0.4);
+$box-shadow-two: inset 0 0 6px rgba(0, 0, 0, 0.1);
+$box-shadow-three: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+/*Box-shadows*/
+/*Width & Heights*/
+$w-100: 100%;
+$w-75: 75%;
+$w-50: 50%;
+$w-25: 25%;
+$h-100: 100%;
+$h-75: 75%;
+$h-50: 50%;
+$h-25: 25%;
+$mxh-100: 100%;
+$mxh-50: 50%;
+$mxw-100: 100%;
+$mxw-50: 50%;
+$w-auto: auto;
+$h-auto: auto;
+/*Width & Heights*/
+
+/*Floats and alignments*/
+$float-left: left;
+$float-right: right;
+$float-none: none;
+$text-center: center;
+$text-left: left;
+$text-right: right;
+$vertical-middle: middle;
+$vertical-top: top;
+$vertical-super: super;
+$vertical-baseline: baseline;
+$vertical-bottom: bottom;
+$vertical-text-top: text-top;
+$vertical-text-bottom: text-bottom;
+$vertical-sub: sub;
+$vertical-inherit: inherit;
+
+/*clear both*/
+$clear-both: both;
+
+/*Cursor*/
+$cursor-pointer: pointer;
+$cursor-not-allowed: not-allowed;
+$cursor-default: default;
+
+/*Box Shadow*/
+$bs-none: none;
+
+/*Border*/
+$border-none: none;
+$border-transparent: transparent;
+
+/*Background*/
+$bg-none: none;
+$bg-transparent: transparent;
+$bg-clip: padding-box;
+$bg-position: center;
+$bg-size: cover;
+$bg-no-repeat: no-repeat;
+$bg-unset: unset;
+
+
+/*Overflow*/
+$overflow-x-auto: auto;
+$overflow-x-scroll: scroll;
+$overflow-x-hidden: hidden;
+$overflow-y-auto: auto;
+$overflow-y-scroll: scroll;
+$overflow-y-hidden: hidden;
+$overflow-hidden: hidden;
+$overflow-auto: auto;
+$overflow-scroll: scroll;
+$overflow-inherit: inherit;
+$overflow-visible: visible;
+
+/*Outline*/
+$outline-none: none;
+$outline-0: 0;
+
+/*whitespace*/
+$white-space-normal: normal;
+$white-space-nowrap: nowrap;
+
+/*Texts*/
+$text-decoration-none: none;
+$text-decoration-underline: underline;
+$list-style-none: none;
+$tt-lower: lowercase;
+$tt-upper: uppercase;
+$tt-unset: unset;
+$tt-capitalize: capitalize;
+$t-of-ellipsis: ellipsis;
+$transform-none: none;
+$pointer-events-none: none;
+$pointer-events-auto: auto;
+
+$align-center: center;
+$justify-center: center;
+
+/*Word break*/
+$wb-normal: normal;
+$wb-br-word: break-word;
+$wb-br-all: break-all;
+
+/*Visibility*/
+$v-hidden: hidden;
+$v-visible: visible;
+
+/*Clear*/
+$clear-both: both;
+
+/*Z index*/
+$z-index-0: 0;

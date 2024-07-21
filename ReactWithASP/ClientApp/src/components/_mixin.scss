@@ -1,0 +1,147 @@
+@import '_font.scss';
+@import '_common.scss';
+@import '_colors.scss';
+
+@mixin right-txt {
+    float: $float-right;
+    text-align: $text-right;
+}
+
+@mixin view-button {
+    padding: 3px 10px;
+    border: $border-none;
+    background: $bg-transparent;
+    font-size: $fs-14;
+}
+
+@mixin exp-rotate {
+    background: initial !important;
+    color: unset !important;
+    box-shadow: $bs-none !important;
+}
+
+@mixin leftright-rotate {
+    background: $white;
+    border: 1px solid #c9c9c9;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.125);
+    border-radius: 5px;
+}
+
+@mixin ellipsis-inline-block {
+    text-overflow: $t-of-ellipsis;
+    white-space: $white-space-nowrap;
+    overflow: hidden;
+    display: $d-inline-block
+}
+
+@mixin ellipsis-block {
+    text-overflow: $t-of-ellipsis;
+    white-space: $white-space-nowrap;
+    overflow: hidden;
+    display: $d-block
+}
+
+@mixin ellipsis {
+    text-overflow: $t-of-ellipsis;
+    white-space: $white-space-nowrap;
+    overflow: hidden;
+}
+
+@mixin over-visible {
+    overflow: $overflow-visible;
+    position: $position-absolute;
+}
+
+@mixin rejected-counttext {
+    overflow: $overflow-visible;
+    position: $position-absolute;
+    white-space: $white-space-nowrap;
+    line-height: 24px;
+    margin-top: -6px;
+    text-align: $text-left;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: $fw-normal;
+    font-size: $fs-12;
+}
+
+@mixin all-count {
+    overflow: $overflow-visible;
+    position: $position-absolute;
+    white-space: $white-space-nowrap;
+    line-height: 40px;
+    text-align: $text-center;
+    font-size: $fs-12;
+}
+
+@mixin label-badge {
+    width: 80%;
+    height: 24px;
+    padding: $p-0;
+    display: $d-inline-block;
+    font-size: $fs-12;
+    font-weight: $fw-400;
+    line-height: 24px;
+    text-align: $text-center;
+    white-space: $white-space-nowrap;
+    vertical-align: $vertical-middle;
+    border-radius: 15px;
+}
+
+@mixin approve-reject {
+    color: $white !important;
+    width: 93px;
+    height: 32px;
+    margin-right: 10px;
+}
+
+@mixin k-grid-head {
+    color: $black-four !important;
+    background-color: $light-grey-four !important;
+    font-weight: $fw-normal !important;
+}
+
+@mixin span-dropwrap {
+    text-overflow: $t-of-ellipsis;
+    -o-text-overflow: $t-of-ellipsis;
+    white-space: $white-space-nowrap;
+    box-shadow: $bs-none !important;
+}
+
+@mixin wh-100 {
+    width: $w-100;
+    height: $h-100;
+}
+
+@mixin easeout-3s {
+    transition: all 0.3s ease-out;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+}
+
+@mixin rotate-scale-one {
+    -webkit-transform: rotate(0deg) scale(1);
+    -ms-transform: rotate(0deg) scale(1);
+    transform: rotate(0deg) scale(1);
+}
+
+@mixin progressbar {
+    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+
+@mixin watermark-style {
+    margin: $m-0;
+    position: $position-absolute;
+    width: $w-100;
+    height: $h-100;
+    color: $black;
+    font-stretch: expanded;
+    font-size: 28px;
+    overflow: hidden;
+    font-weight: $fw-bold;
+    text-align: $text-center;
+}

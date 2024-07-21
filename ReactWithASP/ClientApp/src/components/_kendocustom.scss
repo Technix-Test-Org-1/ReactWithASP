@@ -1,0 +1,128 @@
+
+@import '_colors.scss';
+@import '_common.scss';
+@import '_font.scss';
+@import '_mixin.scss';
+
+
+.blockWatermark {
+    z-index: -1;
+    @include watermark-style;
+    opacity: 0.9;
+    background: #7a00ff;
+}
+
+.chamberWatermark {
+    z-index: -2;
+    @include watermark-style;
+    background: #36c;
+    background: linear-gradient(115deg, transparent 75%, rgba(255,255,255,.8) 75%) 0 0, linear-gradient(245deg, transparent 75%, rgba(255,255,255,.8) 75%) 0 0, linear-gradient(115deg, transparent 75%, rgba(255,255,255,.8) 75%) 7px -15px, linear-gradient(245deg, transparent 75%, rgba(255,255,255,.8) 75%) 7px -15px, #36c;
+    background-size: 15px 30px;
+}
+
+.containerHeader {
+    font-size: $fs-12;
+    font-weight: $fw-bold;
+}
+
+.containerDesign {
+    background: $white;
+    border: 1px solid $black;
+    text-align: $align-center;
+    cursor: $cursor-default;
+}
+
+.containerDesign.selected {
+    background: rgba(0,223,255, 1);
+}
+
+.containerDesign:hover {
+    background: rgba(0,223,255, 1);
+}
+
+.legend .pathway, .pathway {
+    background: rgba(0,255,210, .50);
+}
+
+.legend .pathway, .legend .storagespace {
+    border: 1px solid $black;
+}
+
+.storagespace {
+    background: rgba(255,244,0, .50);
+}
+
+.containerDesign.containerLabel {
+    width: $w-100;
+    height: $h-100;
+    font-size: $fs-12;
+    color: $black;
+    bottom: 0px;
+}
+
+.legend div {
+    display: $d-inline;
+}
+
+.disabledbutton {
+    pointer-events: $pointer-events-none !important;
+    user-select: none;
+    opacity: 0.4;
+}
+
+#CostDetailGrid td:nth-child(3) {
+    text-align: center;
+}
+
+#stroragecalculationpopup label {
+    line-height: 26px;
+}
+
+#ReversalPopUp .modal-footer .btn-default {
+    margin: 0;
+}
+
+.header {
+    text-align: center;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.stackbackground {
+    background: #fcfcfc;
+    border: 1px solid #cccccc;
+}
+
+.usernamestyle {
+    list-style-type: none;
+    float: right;
+    height: 60px;
+    padding-left: 0px;
+    padding-right: 10px;
+    margin-top: -18px;
+    overflow: hidden;
+}
+
+.usernamestyle div.itemstyle {
+    float: right !important;
+    width: auto;
+}
+
+.depotnamestyle {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+.user-profile img {
+    float: right;
+}
+
+.user-profile .icon-angle-down {
+    vertical-align: middle;
+    padding: 5px 0px 0px 0px;
+    font-size: 23px;
+    margin-left: 0px;
+    margin-right: 5px;
+    margin-top: 4px;
+}
