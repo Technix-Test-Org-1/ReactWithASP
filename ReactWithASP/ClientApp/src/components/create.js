@@ -37,7 +37,8 @@ export class Table extends Component<TableProps, TableState> {
             getcarriers:[],
             getSizetypes:[],
             getMoveTypes:[],
-            getReferences:[]
+            getReferences: [],
+            selectedTransporterId: null
         };
     }
 
@@ -156,15 +157,12 @@ export class Table extends Component<TableProps, TableState> {
                                     <span class="disabledPanel inputonlyfieldtooltip">
                                         <ComboBox
                                             id="TransporterName"
-                                            data-placeholder="Search/Enter transporter name"
-                                            data-text-field="NameCode"
-                                            data-value-field="Name"
-                                            data-template="transporterTemplate"
-                                            data-value-primitive={false}
-                                            data-filter="contains"
-                                            data-auto-bind={false}
-                                            data={this.state.getTransportersLov}
-                                            
+                                            data={this.state.getTransportersLov} // Your array of objects
+                                            textField="Name" // Field to display in the dropdown list
+                                            valueField="Id" // Field to use as the value when an item is selected
+                                            placeholder="Search/Enter transporter name"
+                                            value={this.state.selectedTransporterId} // Assuming you have a state to store selected value
+                                            onChange={(event) => this.handleTransporterChange(event)} // Handle selection change
                                         />
                                     </span>
                                 </div>
@@ -392,8 +390,8 @@ export class Table extends Component<TableProps, TableState> {
         const data = await response.json();
         this.setState({ getTransportersLov: data, loading: false });
         const response2 = await fetch('http://localhost:2190/api/v1/gateEntry/getReferences?type=GI&depotId=22844&page=1&pageSize=30&sortField=1&sortType=true');
-        const data2 = await response.json();
-        this.setState({ getReferences: data2, loading: false });
+        const data2 = await response2.json();
+        this.setState({ getReferences: data2.Items, loading: false });
     //    const response3 = await fetch('http://localhost:2190/api/v1/gateEntry/getReferences?type=GI&depotId=22844&page=1&pageSize=30&sortField=1&sortType=true');
     //    const data3 = await response.json();
     //    this.setState({ getSizetypes: data2, loading: false });
