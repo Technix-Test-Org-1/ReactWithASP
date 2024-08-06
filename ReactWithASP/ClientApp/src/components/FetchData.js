@@ -6,6 +6,7 @@ import { Button, Icon } from '@progress/kendo-react-buttons';
 import { Dialog } from '@progress/kendo-react-dialogs';
 import '@progress/kendo-react-common';
 import '@progress/kendo-theme-default/dist/all.css';
+import { Pager } from '@progress/kendo-react-data-tools';
 import { Grid, GridColumn as Column } from '@progress/kendo-react-grid';
 const depot = {
     timeZone: { offset: 13, minutes: 780 },
@@ -56,17 +57,33 @@ function toGetDwellTime(date1, date2) {
 export class FetchData extends Component {
   constructor(props) {
     super(props);
-      this.state = { forecasts: [], users: [], loading: true, showDialog: false};
-    }
-
+      this.state = {
+          forecasts: [], users: [], loading: true, showDialog: false, total: 0, page: 1, pageSize: 20
+      };
+    };
     toggleDialog = () => {
         this.setState((prevState) => ({
             showDialog: !prevState.showDialog,
         }));
     };
+    handlePageChange = (event) => {
+        const newPage = event.page;
+        this.setState({ page: newPage }, () => {
+            this.fetchData(this.state.page, this.state.pageSize);
+        });
+    };
+
+    handlePageSizeChange = (event) => {
+        const newPageSize = event.pageSize;
+        this.setState({ pageSize: newPageSize, page: 1 }, () => {
+            this.fetchData(this.state.page, this.state.pageSize);
+        });
+    };
   componentDidMount() {
       //this.populateWeatherData();
       this.populateData();
+      const { page, pageSize } = this.state;
+      this.fetchData(page, pageSize);
       //this.setState({ users: this.populateData() })
 
   }
@@ -127,29 +144,36 @@ export class FetchData extends Component {
 
             </div>
     </div >
-            <div className="App truckingridpanel">
+                <div className="App truckingridpanel">
                 
                 <Grid
                     className="gateEntryGrid"
                     style={{
                         height: "400px",
                     }}
-                    data={this.state.users}
+                        data={this.state.users}
+                        pageable={true}
+                        scrollable={ true}
+                        selectable={true }
+                        skip={(this.state.page - 1) * this.state.pageSize}
+                        take={this.state.pageSize}
+                        total={this.state.total}
+                        onPageChange={this.handlePageChange} // Attach the page change handler
+                        onPageSizeChange={this.handlePageSizeChange} // Attach the page size change handler
                 >
-                    <Column field="Event" title="Event" />
-                    <Column field="TruckNumber" title="Truck No." />
-                    <Column field="TransporterName" title="Transporter Name" />
-                    <Column field="GateInTime" title="Truck Gate In Time" />
-                    <Column field="GateOutTime" title="Truck Gate Out Time" />
-                    <Column field="ReferenceNumber" title="Reference No." />
-                    <Column field="EquipmentNumber" title="Equipment No." />
-                    <Column field="" title="Dwell Time" cell={({ dataItem }) => <span>{toGetDwellTime(dataItem.GateInTime, dataItem.GateOutTime)}</span>} />
-                    <Column field="DriverReferenceNumber" title="Driver ref no." />
-                    <Column field="GatePassNumber" title="Gate pass number" />
-                    <Column field="EquipmentNumber" title="Created Date" />
-                    <Column field="EquipmentNumber" title="Truck In/Truck Out	" />
-                </Grid>
-
+                    <Column field="event" title="Event" />
+                    <Column field="truckNumber" title="Truck No." />
+                    <Column field="transporterName" title="Transporter Name" />
+                    <Column field="gateInTime" title="Truck Gate In Time" />
+                    <Column field="gateOutTime" title="Truck Gate Out Time" />
+                    <Column field="referenceNumber" title="Reference No." />
+                    <Column field="equipmentNumber" title="Equipment No." />
+                    <Column field="" title="Dwell Time" cell={({ dataItem }) => <span>{toGetDwellTime(dataItem.gateInTime, dataItem.gateOutTime)}</span>} />
+                    <Column field="driverReferenceNumber" title="Driver ref no." />
+                    <Column field="gatePassNumber" title="Gate pass number" />
+                    <Column field="equipmentNumber" title="Created Date" />
+                        <Column field="equipmentNumber" title="Truck In/Truck Out	" />
+                    </Grid>
                 </div>
             </div>
         );
@@ -160,11 +184,47 @@ export class FetchData extends Component {
     const data = await response.json();
     this.setState({ forecasts: data, loading: false });
     }
-
+    async fetchData(page, pageSize) {
+        this.setState({ loading: true });
+        try {
+            const response = await fetch('https://localhost:44324/api/GateEntry/GetList?' + new URLSearchParams({
+                depotId: 22844,
+                pageIndex: page,
+                pageSize: pageSize,
+            }), {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const result = await response.json();
+            this.setState({ users: result.data, total: result.total });
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        } finally {
+            this.setState({ loading: false });
+        }
+    }
     async populateData() {
         debugger;
-        const response = await fetch('http://localhost:2190/api/v1/gateEntry/gateEntries?depotId=22844&pageIndex=1&pageSize=20&sortField=1&sortOrder=true');
+        //const response = await fetch('/api/gateEntries?depotId=22844&pageIndex=1&pageSize=20&sortField=1&sortOrder=true');
+        //const data = await response.json();
+        //this.setState({ users: data.Items, loading: false });
+        const response = await fetch('https://localhost:44324/api/GateEntry/GetList?' + new URLSearchParams({
+            depotId: 22844,
+            pageIndex: this.state.page,
+            pageSize: this.state.pageSize,
+        }), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        //const response = await fetch('https://localhost:44324/api/GetList?depotId=22844&pageIndex=1&pageSize=20&sortField=1&sortOrder=true')
         const data = await response.json();
-        this.setState({ users: data.Items, loading: false });
+        this.setState({ users: data.data, total: data.total, loading: false });
     }
-}
+} 

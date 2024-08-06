@@ -38,7 +38,7 @@ export class Table extends Component<TableProps, TableState> {
             getSizetypes:[],
             getMoveTypes:[],
             getReferences: [],
-            selectedTransporterId: null
+            selectedTransporterId: ""
         };
     }
 
@@ -97,6 +97,9 @@ export class Table extends Component<TableProps, TableState> {
             this.setState({ rowCount2: null, tableData: [] });
         }
     };
+    handleTransporterChange = (event) => {
+        this.setState({ selectedTransporterId: event.target.value });
+    }
     
     render() {
 
@@ -158,8 +161,8 @@ export class Table extends Component<TableProps, TableState> {
                                         <ComboBox
                                             id="TransporterName"
                                             data={this.state.getTransportersLov} // Your array of objects
-                                            textField="Name" // Field to display in the dropdown list
-                                            valueField="Id" // Field to use as the value when an item is selected
+                                            textField="name" // Field to display in the dropdown list
+                                            valueField="name" // Field to use as the value when an item is selected
                                             placeholder="Search/Enter transporter name"
                                             value={this.state.selectedTransporterId} // Assuming you have a state to store selected value
                                             onChange={(event) => this.handleTransporterChange(event)} // Handle selection change
@@ -386,9 +389,22 @@ export class Table extends Component<TableProps, TableState> {
     }
     async populateLovData() {
         debugger;
-        const response = await fetch('http://localhost:2190/api/v1/gateEntry/carriers?role=T&depotId=22844');
+        //const response = await fetch('weatherforecast');
+        //const data = await response.json();
+        //this.setState({ getTransportersLov: data, loading: false });
+
+        const response = await fetch('https://localhost:44324/api/GateEntry/GetCarriers?role=T&depotId=22844', { // - Working one
+            method: "GET",
+            mode: 'cors',
+            headers: {
+                'Access-Control-Allow-Origin': 'https://localhost:44324/',
+                'Access-Control-Allow-Credentials': 'true',
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            }
+        })
         const data = await response.json();
-        this.setState({ getTransportersLov: data, loading: false });
+        this.setState({ getTransportersLov: data.data, loading: false });
         const response2 = await fetch('http://localhost:2190/api/v1/gateEntry/getReferences?type=GI&depotId=22844&page=1&pageSize=30&sortField=1&sortType=true');
         const data2 = await response2.json();
         this.setState({ getReferences: data2.Items, loading: false });

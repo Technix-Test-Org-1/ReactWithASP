@@ -4,7 +4,12 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.Hosting;
+using ReactWithASP.Interface;
+using ReactWithASP.UIServices;
+using ReactWithASP.ViewModels;
+using System.Configuration;
 
 namespace ReactWithASP
 {
@@ -20,9 +25,25 @@ namespace ReactWithASP
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllersWithViews();
-
+            services.AddControllers ();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    policy =>
+                    {
+                        policy.WithOrigins("https://localhost:44324") // React app URL
+                              .AllowAnyHeader()
+                              .AllowAnyMethod();
+                    });
+            });
+            services.AddScoped<GateEntryServiceReader>();
+            services.AddSingleton<IGateEntryServiceReader, GateEntryServiceReader>();
+            services.AddScoped<IGateEntryServiceReader, GateEntryServiceReader>();
+            var registrationSection = Configuration.GetSection("GatePassReaderBaseURI");
+            services.Configure<MasterServiceConfig>(registrationSection);
+            var tokenSection = Configuration.GetSection("TokenDetails");
+            services.Configure<TokenConfig>(tokenSection);
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -43,7 +64,7 @@ namespace ReactWithASP
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseCors("AllowAll");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
@@ -56,7 +77,10 @@ namespace ReactWithASP
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
             });
-
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
