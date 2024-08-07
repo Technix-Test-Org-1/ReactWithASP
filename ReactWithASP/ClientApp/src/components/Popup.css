@@ -1,0 +1,70 @@
+﻿/* Popup.css */
+.popup-overlay {
+    position: absolute;
+    top: 31px;
+    left: 45px; /* Position at the left corner */
+    right: 665px;
+    bottom: 72px;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: flex-start; /* Align content to the left */
+    align-items: flex-start; /* Align content to the top */
+    z-index: 10;
+}
+
+/*.popup-content {
+    background: white;
+    padding: 100px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px;*/ /* Add margin for spacing */
+/*max-width: 300px;*/ /* Set a maximum width */
+/*background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    max-width: 500px;*/ /* Set a max width for the popup */
+/*width: 100%;*/ /* Allow it to take full width */
+/*height: auto;*/ /* Allow height to adjust based on content */
+/*overflow: auto;*/ /* Allow scrolling if content exceeds the height */
+/*}*/
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+/*.popup-inner-content {
+    padding: 20px;*/ /* Add padding for inner content */
+/*font-size: 16px;*/ /* Increase font size */
+/*line-height: 1.5;*/ /* Adjust line height for better readability */
+/*max-height: calc(100% - 40px);*/ /* Prevent overflowing */
+/*overflow-y: auto;*/ /* Allow scrolling if content exceeds height */
+/*}*/
+.popup-content {
+    display: flex;
+    width: 100%;
+    max-width: 500px;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    padding: 20px; /* Add padding around content */
+    background-color: white; /* Background color */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+}
+
+.popup-inner-content {
+    padding: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+    max-height: calc(100% - 40px);
+    overflow-y: auto;
+}
+
+h1 {
+    margin-bottom: 15px; /* Add space between title and ComboBox */
+}

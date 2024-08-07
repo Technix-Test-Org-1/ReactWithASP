@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Msc.Framework.Common.Model.Pagination;
+using Newtonsoft.Json;
 using ReactWithASP.Interface;
 using ReactWithASP.UIServices;
 using ReactWithASP.ViewModels;
@@ -36,7 +37,7 @@ namespace ReactWithASP.Controllers
         public async Task<JsonResult> GetList([FromQuery]AdvanceSearchRequest request)
         {
             var data = await serviceInterface.GetList(request);
-            return this.Json(new { Data = data.Items, Total = Convert.ToInt32(data.TotalCount) });
+            return this.Json(new { Data = JsonConvert.SerializeObject(data.Items), Total = Convert.ToInt32(data.TotalCount) });
         }
     }
 }

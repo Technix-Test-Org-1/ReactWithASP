@@ -7,7 +7,7 @@ import { TextArea, Checkbox } from '@progress/kendo-react-inputs';
 import { ComboBox } from '@progress/kendo-react-dropdowns';
 import { TabStrip, TabStripTab, TabContent } from '@progress/kendo-react-layout';
 import './App.css';
-
+import './main.scss';
 
 interface TableProps {
     rowCount: number;
@@ -38,7 +38,9 @@ export class Table extends Component<TableProps, TableState> {
             getSizetypes:[],
             getMoveTypes:[],
             getReferences: [],
-            selectedTransporterId: ""
+            selectedTransporterId: "",
+            isDropChecked: false,
+            isPickupChecked: false
         };
     }
 
@@ -79,6 +81,17 @@ export class Table extends Component<TableProps, TableState> {
             item.id === dataItem.id ? { ...item, [field]: event.value } : item
         );
         this.setState({ tableData: newData });
+    };
+    handleDropCheckboxChange = () => {
+        debugger
+        this.setState((setIsChecked) => ({
+            isDropChecked: !setIsChecked.isDropChecked,
+        }));
+    };
+    handlePickUpCheckboxChange = () => {
+        this.setState((setIsChecked) => ({
+            isPickupChecked: !setIsChecked.isPickupChecked,
+        }));
     };
 
     handleRadioButtonChange = (event: React.ChangeEvent<HTMLInputElement>, field: string, dataItem: any) => {
@@ -121,9 +134,8 @@ export class Table extends Component<TableProps, TableState> {
                                             <span className="disabledPanel">
                                                 <Checkbox
                                                     id="Dropoff"
-                                                    value="D"
-                                                    checked={false}
-                                                   
+                                                    checked={this.state.isDropChecked}
+                                                    onChange={(event) => this.handleDropCheckboxChange(event)}                                                   
                                                 />
                                             </span>
                                         </span>
@@ -134,8 +146,8 @@ export class Table extends Component<TableProps, TableState> {
                                             <span className="disabledPanel">
                                                 <Checkbox
                                                     id="pickup"
-                                                    value="P"
-                                                    checked={false}
+                                                    checked={this.state.isPickupChecked}
+                                                    onChange={(event) => this.handlePickUpCheckboxChange(event)}
                                                     
                                                 />
                                             </span>
@@ -221,7 +233,7 @@ export class Table extends Component<TableProps, TableState> {
                     <TabStrip id="depotTabStrip">
                         <TabStripTab
                             selected={true} // Adjust based on active tab logic
-                            id="dropOffTab" title={`DROPOFF (0)`}>
+                            id="dropOffTab" title={`DROPOFF`}>
                             <TabContent>
                                
                             </TabContent>
