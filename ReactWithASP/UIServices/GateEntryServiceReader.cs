@@ -16,6 +16,7 @@ using ReactWithASP.ViewModels;
 using Microsoft.Identity.Client;
 using Msc.Framework.Common.Model.Utility;
 using System.Linq;
+using Azure;
 
 namespace ReactWithASP.UIServices
 {
@@ -215,7 +216,13 @@ namespace ReactWithASP.UIServices
             var data = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<PageResponse<MasterBase>>(data);
         }
-
+        public async Task<PageResponse<MasterBase>> GetEquipmentListOfValues(string type, string searchText, int page, int pageSize, int depotId)
+        {
+            await this.SetToken();
+            var containers = await this.httpClient.GetAsync("v1/gateEntry/getEquipmentListOfValues?type=" + type + "&searchText=" + searchText + "&depotId=" + depotId + "&page=" + page + "&pageSize=" + pageSize);
+            var data = await containers.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<PageResponse<MasterBase>>(data);
+        }
         /// <summary>
         /// Declare Dispose.
         /// </summary>

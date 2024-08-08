@@ -1,4 +1,3 @@
-/// <reference path="../mymodal.js" />
 import React, { Component } from 'react';
 import './App.css';
 import './main.scss';
@@ -7,7 +6,6 @@ import { Button, Icon } from '@progress/kendo-react-buttons';
 import { Dialog } from '@progress/kendo-react-dialogs';
 import '@progress/kendo-react-common';
 import '@progress/kendo-theme-default/dist/all.css';
-import { Pager } from '@progress/kendo-react-data-tools';
 import { Grid, GridColumn as Column } from '@progress/kendo-react-grid';
 import Popup from './MyModal';
 import { ComboBox } from '@progress/kendo-react-dropdowns';
@@ -15,7 +13,6 @@ const depot = {
     timeZone: { offset: 13, minutes: 780 },
     model: {}
 }
-const setVisibleDialog = false;
 
 function toGetCurrentMaxDate(date, noSeconds) {
     let returnDate = null;
@@ -61,7 +58,7 @@ export class FetchData extends Component {
   constructor(props) {
     super(props);
       this.state = {
-          getEquipmentNumbers: [], forecasts: [], users: [], loading: true, showDialog: false, total: 0, page: 1, pageSize: 20000, isOpen: false 
+          getEquipmentNumbers: [], forecasts: [], users: [], loading: true, showDialog: false, total: 0, page: 1, pageSize: 20, isOpen: false 
       };
     }
     togglePopup = () => {
@@ -87,53 +84,12 @@ export class FetchData extends Component {
             this.fetchData(this.state.page, this.state.pageSize);
         });
     };
-  componentDidMount() {
-      //this.populateWeatherData();
+    componentDidMount() {
       this.populateData();
       const { page, pageSize } = this.state;
       this.fetchData(page, pageSize);
-      //this.setState({ users: this.populateData() })
-
   }
-
-    static renderForecastsTable(forecasts) {
-        forecasts = forecasts.map(function (val) {
-            return {
-                date: new Date(val.date).toLocaleDateString(),
-                temperatureC: val.temperatureC,
-                temperatureF: val.temperatureF,
-                summary: val.summary,
-                id: val.date
-            }
-        });
-    return (
-      <table className='table table-striped' aria-labelledby="tabelLabel">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
-          </tr>
-        </thead>
-        <tbody>
-          {forecasts.map(forecast =>
-              <tr key={forecast.id}>
-                  <td>{forecast.date}</td>
-              <td>{forecast.temperatureC}</td>
-              <td>{forecast.temperatureF}</td>
-              <td>{forecast.summary}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    );
-    }
-
-
     render() {
-        //users = users.map(function (val) { return val });
-        //const users = this.populateData();
         return (
             <div className="truckinScreen" id="GateEntry">
                 <div className="FilterPanel">
@@ -149,7 +105,7 @@ export class FetchData extends Component {
                                                 <label id="EquipmentLabel" class="d-block mb-2">Equipment Number</label>
                                                 <ComboBox
                                                     id="EquipmentNumber"
-                                                    class=""
+                                                    class="" 
                                                     data={this.state.getEquipmentNumbers} // Your array of objects
                                                     textField="Description" // Field to display in the dropdown list
                                                     valueField="Id" // Field to use as the value when an item is selected
@@ -189,18 +145,18 @@ export class FetchData extends Component {
                     }}
                         data={this.state.users}
                 >
-                    <Column field="event" title="Event" />
-                    <Column field="truckNumber" title="Truck No." />
-                    <Column field="transporterName" title="Transporter Name" />
-                    <Column field="gateInTime" title="Truck Gate In Time" />
-                    <Column field="gateOutTime" title="Truck Gate Out Time" />
-                    <Column field="referenceNumber" title="Reference No." />
-                    <Column field="equipmentNumber" title="Equipment No." />
-                    <Column field="" title="Dwell Time" cell={({ dataItem }) => <span>{toGetDwellTime(dataItem.gateInTime, dataItem.gateOutTime)}</span>} />
-                    <Column field="driverReferenceNumber" title="Driver ref no." />
-                    <Column field="gatePassNumber" title="Gate pass number" />
-                    <Column field="equipmentNumber" title="Created Date" />
-                        <Column field="equipmentNumber" title="Truck In/Truck Out	" />
+                    <Column field="Event" title="Event" />
+                    <Column field="TruckNumber" title="Truck No." />
+                    <Column field="TransporterName" title="Transporter Name" />
+                    <Column field="GateInTime" title="Truck Gate In Time" />
+                    <Column field="GateOutTime" title="Truck Gate Out Time" />
+                    <Column field="ReferenceNumber" title="Reference No." />
+                    <Column field="EquipmentNumber" title="Equipment No." />
+                    <Column field="" title="Dwell Time" cell={({ dataItem }) => <span>{toGetDwellTime(dataItem.GateInTime, dataItem.GateOutTime)}</span>} />
+                    <Column field="DriverReferenceNumber" title="Driver ref no." />
+                    <Column field="GatePassNumber" title="Gate pass number" />
+                    <Column field="EquipmentNumber" title="Created Date" />
+                        <Column field="EquipmentNumber" title="Truck In/Truck Out	" />
                     </Grid>
                 </div>
             </div>
@@ -224,13 +180,23 @@ export class FetchData extends Component {
     }
 };
     async handleFilterSearch(event) {
-    debugger
     const equipmentNumber = this.state.EquipmentNumber && this.state.EquipmentNumber.Description;
-    const response = await fetch(`http://localhost:2190/api/v1/gateEntry/gateEntries?depotId=22844&equipmentNumber=${equipmentNumber}&pageIndex=1&pageSize=20&sortField=1&sortOrder=true`);
-    const data = await response.json();
-    this.setState({ users: data.Items, loading: false });
+        const datas = await fetch('https://localhost:44324/api/GateEntry/GetList?' + new URLSearchParams({
+            depotId: 22844,
+            pageIndex: this.state.page,
+            pageSize: this.state.pageSize,
+            equipmentNumber: equipmentNumber
+        }), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await datas.json();
+        this.setState({ users: JSON.parse(data.data), total: data.total });
+        this.togglePopup();
 };
-  async populateWeatherData() {
+    async populateWeatherData() {
     const response = await fetch('weatherforecast');
     const data = await response.json();
     this.setState({ forecasts: data, loading: false });
@@ -252,7 +218,6 @@ export class FetchData extends Component {
                 throw new Error('Network response was not ok');
             }
             const result = await response.json();
-            debugger;
             this.setState({ users: JSON.parse(result.data), total: result.total });
         } catch (error) {
             console.error('There has been a problem with your fetch operation:', error);
@@ -261,24 +226,21 @@ export class FetchData extends Component {
         }
     }
     async populateData() {
-        const response1 = await fetch('http://localhost:2190/api/v1/gateEntry/getEquipmentListOfValues?type=GI&searchText=m&depotId=22844&page=1&pageSize=1000');
+        const response1 = await fetch('https://localhost:44324/api/GateEntry/GetEquipmentListOfValues?' + new URLSearchParams({
+            type: "GI",
+            searchText: "m",
+            depotId: 22844,
+            page: 1,
+            pageSize: 1000,
+        }), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        debugger
+        //const response1 = await fetch('http://localhost:2190/api/v1/gateEntry/getEquipmentListOfValues?type=GI&searchText=m&depotId=22844&page = 1 & pageSize=1000');
 const data1 = await response1.json();
-        this.setState({ getEquipmentNumbers: data1.Items, loading: false });
-        //const response = await fetch('/api/gateEntries?depotId=22844&pageIndex=1&pageSize=20&sortField=1&sortOrder=true');
-        //const data = await response.json();
-        //this.setState({ users: data.Items, loading: false });
-        ////const response = await fetch('https://localhost:44324/api/GateEntry/GetList?' + new URLSearchParams({
-        ////    depotId: 22844,
-        ////    pageIndex: this.state.page,
-        ////    pageSize: this.state.pageSize,
-        ////}), {
-        ////    method: 'GET',
-        ////    headers: {
-        ////        'Content-Type': 'application/json'
-        ////    }
-        ////});
-        //////const response = await fetch('https://localhost:44324/api/GetList?depotId=22844&pageIndex=1&pageSize=20&sortField=1&sortOrder=true')
-        ////const data = await response.json();
-        ////this.setState({ users: data.data, total: data.total, loading: false });
+        this.setState({ getEquipmentNumbers: JSON.parse(data1.data), loading: false });
     }
 } 

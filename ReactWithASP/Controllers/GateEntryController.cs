@@ -39,5 +39,11 @@ namespace ReactWithASP.Controllers
             var data = await serviceInterface.GetList(request);
             return this.Json(new { Data = JsonConvert.SerializeObject(data.Items), Total = Convert.ToInt32(data.TotalCount) });
         }
+        [HttpGet("GetEquipmentListOfValues")]
+        public async Task<JsonResult> GetEquipmentListOfValues(string type, string searchText, int page, int pageSize, int depotId = 0)
+        {
+            var equipments = await serviceInterface.GetEquipmentListOfValues(type, searchText, page, pageSize, depotId);
+            return this.Json(new { Data = JsonConvert.SerializeObject(equipments.Items), Total = Convert.ToInt32(equipments.TotalCount) });
+        }
     }
 }
